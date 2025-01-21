@@ -8,7 +8,7 @@ const Navbar = () => {
           <p className='uppercase tracking-widest text-4xl text-blood-red'>joanne + eliot</p>
             <div className='md:ml-auto'>
               <div className='flex space-x-2'>
-                <Link to='/home' className='uppercase pr-4 font-light hover:underline'>h o m e</Link>
+                <Link to='/' className='uppercase pr-4 font-light hover:underline'>h o m e</Link>
                 <Link to='/schedule' className='uppercase pr-4 font-light hover:underline'>s c h e d u l e</Link>
                 <Link to='/registry' className='uppercase font-light hover:underline'>r e g i s t r y</Link>
               </div>

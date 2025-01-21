@@ -8,7 +8,7 @@ import Schedule from './pages/Schedule'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<MainLayout />}>
-      <Route path='home' element={<HomePage/>} />
+      <Route index element={<HomePage/>} />
       <Route path='/registry' element={<Registry />} />
       <Route path='/schedule' element={<Schedule />} />
     </Route>
