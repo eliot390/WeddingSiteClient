@@ -5,7 +5,7 @@ const HomePage = () => {
   return (
     <>
       <MainSplash />
-      <RSVP />
+      {/* <RSVP /> */}
     </>
   )
 }

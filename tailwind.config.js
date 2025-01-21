@@ -10,7 +10,9 @@ export default {
         sans: ['Oswald', 'serif']
       },
       colors: {
-        'blood-red': '#8c0707'
+        'blood-red': '#8c0707',
+        'dark-red': '#660404',
+        'gold': '#a89668'
       }
     },
   },
