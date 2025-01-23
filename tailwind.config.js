@@ -14,7 +14,8 @@ export default {
         'darker-red': '#560101',
         'dark-red': '#660404',
         'gold': '#a89668',
-        'light-gold': '#e5dfd2'
+        'light-gold': '#e5dfd2',
+        'pale-gold': '#fbfaf9'
       }
     },
   },

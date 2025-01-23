@@ -1,9 +1,11 @@
 const Schedule = () => {
   return (
-    <div className='flex flex-col justify-center bg-zinc-900'>
-      <p className='uppercase tracking-wide text-6xl text-center text-blood-red pt-10'>schedule</p>
+    <div className='flex flex-col justify-center items-center bg-zinc-900 mt-14'>
+      <div className='mt-12 w-1/2 bg-white border-x-2 border-t-2 border-gold rounded-t-sm'>
+        <p className='uppercase tracking-wide text-6xl text-center text-blood-red pt-4 bg-pale-gold'>schedule</p>
+      </div>      
       <div className='flex justify-center'>
-        <div className='grid grid-cols-2 justify-items-stretch mt-10 w-1/2 border-2 border-gold rounded pt-2 pb-2 mb-6 bg-white'>
+        <div className='grid grid-cols-2 justify-items-stretch pt-5 w-1/2 border-x-2 border-b-2 border-gold rounded-b-sm pb-2 mb-6 bg-pale-gold'>
           <div className='border-solid border-r-2 border-gold'></div>
           <div className='border-solid border-l-2 border-gold p-4'>
             <div className='uppercase tracking-wide text-6xl text-blood-red'>welcome drinks</div>

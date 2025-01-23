@@ -5,7 +5,7 @@ const MainSplash = () => {
   return (
     <div className='flex flex-col items-center bg-zinc-900 h-screen w-full'>
       <img src={backdrop} className='relative w-2/3'/>
-      <div className='absolute top-80 flex flex-col justify-center items-center border-solid border-2 border-gold rounded bg-white p-10'>
+      <div className='absolute top-80 flex flex-col justify-center items-center border-solid border-2 border-gold rounded bg-pale-gold p-10'>
         <div className='uppercase tracking-widest text-6xl text-center text-blood-red'>
           <p>joanne</p>
           <p className='text-gold'>+</p>
