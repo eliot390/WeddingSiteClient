@@ -11,8 +11,10 @@ export default {
       },
       colors: {
         'blood-red': '#8c0707',
+        'darker-red': '#560101',
         'dark-red': '#660404',
-        'gold': '#a89668'
+        'gold': '#a89668',
+        'light-gold': '#e5dfd2'
       }
     },
   },

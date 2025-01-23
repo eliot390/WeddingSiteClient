@@ -1,8 +1,8 @@
 const RSVP = () => {
   return (
-    <div className='flex justify-center mt-12'>
-      <div className='mt-12 max-w-xl'>
-        <div className='flex flex-col justify-items-center border-solid border-2 border-gold rounded p-3'>
+    <div className='flex justify-center bg-zinc-900 h-screen w-full'>
+      <div className='mt-48 max-w-xl'>
+        <div className='flex flex-col justify-items-center border-solid border-2 border-gold rounded p-3 bg-white'>
           <p className='text-gold tracking-wide text-center text-lg'>
             Please enter the first and last name of one member of your party below.<br/>
             If you're responding for you and a guest, you'll be able to RSVP for your entire party on the next page.
