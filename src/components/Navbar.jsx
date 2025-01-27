@@ -11,6 +11,7 @@ const Navbar = () => {
             <div className='md:ml-auto'>
               <div className='flex space-x-2'>
                 <Link to='/' className={`uppercase pr-4 font-light hover:underline ${location.pathname === '/' ? 'underline' : ''}`}>h o m e</Link>
+                <Link to='/rsvp' className={`uppercase pr-4 font-light hover:underline ${location.pathname === '/rsvp' ? 'underline' : ''}`}>r s v p</Link>
                 <Link to='/schedule' className={`uppercase pr-4 font-light hover:underline ${location.pathname === '/schedule' ? 'underline' : ''}`}>s c h e d u l e</Link>
                 <Link to='/registry' className={`uppercase pr-4 font-light hover:underline ${location.pathname === '/registry' ? 'underline' : ''}`}>r e g i s t r y</Link>
               </div>

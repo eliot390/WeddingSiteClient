@@ -17,9 +17,16 @@ const MainSplash = () => {
             <div className='border-solid border-2 border-gold p-3 uppercase text-2xl text-gold tracking-widest'>rsvp by august 1, 2025</div>
           </Link>
         </div>
-      </div>      
+      </div>
+      <div className='absolute top-[calc(80%)] w-3/5 border-t-2 border-gold text-white'>
+        <div className='flex flex-row justify-around uppercase text-center'>
+          <p>boy meets girl <br/> <span className='normal-case'>box step-ups at the gym</span></p>
+          <p>1st date <br/> <span className='normal-case'>bad Thai food take-out</span></p>
+          <p>the moment <br/> <span className='normal-case'>a weekend in Joshua Tree</span></p>
+          <p>she said yes! <br/> <span className='normal-case'>fireworks (or gunshots?) in Hawaii </span></p>
+        </div>
+      </div>
     </div>
-    
   )
 }
 
