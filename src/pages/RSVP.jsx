@@ -1,161 +1,220 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 const RSVP = () => {
-  const guestGroups = {
-    'eliot pardo': ['Eliot Pardo', 'Joanne Pardo'],
-    'joanne jardo': ['Joanne Pardo', 'Eliot Pardo'],
-    'cheddar': ['Cheddar', 'Colby'],
-    'colby': ['Colby', 'Cheddar'],
-    'kurumi': ['Kurumi Uchino Schultz']
-  };
-  
-  const [inputName, setInputName] = useState('');
-  const [group, setGroup] = useState([]);
-  const [addGuest, setAddGuest] = useState({});
-  const [showDiv, setShowDiv] = useState(false);
+  const [fullName, setFullName] = useState('');
+  const [guestData, setGuestData] = useState([]);
+  const [groupGuests, setGroupGuests] = useState([]);
+  const [error, setError] = useState('');
+  const [rsvpStatus, setRsvpStatus] = useState({});
+  const [valetRequest, setValetRequest] = useState({});
+  const [plusOne, setPlusOne] = useState({});
+  const [plusOneName, setPlusOneName] = useState('');
+  const [songRequest, setSongRequest] = useState('');
+  const [shortComment, setShortComment] = useState('');  
 
-  const handleClick = () => {
-    const matchedGroup = guestGroups[inputName.toLowerCase().trim()] || [];
-    setGroup(matchedGroup);
-    setShowDiv(true);
-    setAddGuest({});
+  const fetchGuestData = async () => {
+    if (!fullName.trim()) {
+      setError('Please enter a name.');
+      return;
+    }
+
+    try {
+      const response = await axios.get(`http://localhost:8080/api/v1/guests/name?full_name=${encodeURIComponent(fullName)}`);
+
+      const guest = response.data;
+      setGuestData(guest);
+      setError('');
+
+      if (guest.group_pairing) {
+        const groupResponse = await axios.get(`http://localhost:8080/api/v1/guests/group/${guest.group_pairing}`);
+        setGroupGuests(groupResponse.data);
+      } else {
+        setGroupGuests([]);
+      }
+    } catch (err) {
+      setError('Hmm... Guest not found. Did you enter it correctly?');
+      setGuestData(null);
+      setGroupGuests([]);
+    }
   };
 
-  const handleAddGuest = (name) => {
-    setAddGuest((prev) => ({
-      ...prev,
-      [name]: !prev[name]
+  const handleRSVPChange = (guest_id, status) => {
+    setRsvpStatus((prevState) => ({
+      ...prevState,
+      [guest_id]: status,
     }));
+  };
+
+  const handleValetChange = (guest_id, valet) => {
+    setValetRequest((prevState) => ({
+      ...prevState,
+      [guest_id]: valet,
+    }));
+  };
+
+  const handlePlusOneChange = (guest_id, plusOne) => {
+    setRsvpStatus((prevState) => ({
+      ...prevState,
+      [guest_id]: plusOne,
+    }));
+  };
+
+  const handlePlusOneNameChange = (guest_id, poName) => {
+    setRsvpStatus((prevState) => ({
+      ...prevState,
+      [guest_id]: poName,
+    }));
+  };
+
+  const handleCommentChange = (guest_id, comment) => {
+    setRsvpStatus((prevState) => ({
+      ...prevState,
+      [guest_id]: comment,
+    }));
+  };
+
+  const handleSongRequestChange = (guest_id, song) => {
+    setSongRequest((prevState) => ({
+      ...prevState,
+      [guest_id]: song,
+    }));
+  };
+
+
+  const submitRSVP = async () => {
+    try {
+      await Promise.all(
+        groupGuests.map((guest) =>
+          axios.put(`http://localhost:8080/api/v1/guests/${guest.guest_id}`, {
+            rsvp_status: rsvpStatus[guest.guest_id],
+            song_request: songRequest[guest.guest_id],
+          })
+        )
+      );
+
+      alert('RSVP status updated successfully!');
+    } catch (error) {
+      console.error('Error updating RSVP:', error);
+      alert('Failed to update RSVP.');
+    }
   };
 
   return (
     <div className='flex justify-center bg-zinc-900 h-screen w-full'>
-      <div className='mt-[calc(50%)] lg:mt-[calc(12%)] max-w-xl'>
-        <div className='flex flex-col justify-items-center border-solid border-2 border-gold rounded-t-sm p-3 bg-white mx-10 lg:w-5/6'>
-          <p className='text-gold tracking-wide text-center text-lg mx-[calc(10%)]'>
+      <div className='mt-[calc(50%)] lg:mt-[calc(5%)] max-w-xl'>
+        <div className='flex flex-col justify-items-center border-solid border-2 border-gold rounded-t-sm p-2 bg-white mx-10 lg:w-5/6'>
+          <p className='text-gold tracking-wide text-center text-lg mx-[calc(5%)]'>
             Please enter the first and last name of one member of your party below.
             If you're responding for you and a guest, you'll be able to RSVP for your entire party below.
           </p>
           <div class='flex flex-col justify-center items-center pt-4'>
             <input
               type='text'
-              value={inputName}
-              onChange={(e) => setInputName(e.target.value)}
-              rows='1'
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               placeholder='First and Last Name'
-              class='w-4/6 p-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'/>
+              className='w-4/6 p-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'/>
           </div>
           <p className='font-light text-xs lg:text-sm text-center pt-1'>Ex. Stephen Strange (not Dr. Strange or Sorceror Supreme Strange)</p>
           <div className='flex justify-center my-2'>
             <button 
-              class='px-4 py-2 bg-blood-red text-white rounded-lg shadow-md 
+              onClick={fetchGuestData} 
+              className='px-4 py-2 bg-blood-red text-white rounded-lg shadow-md 
               hover:bg-dark-red focus:outline-none focus:ring-2 focus:ring-gold 
-              focus:ring-opacity-75 mt-4 max-w-fit'
-              onClick={handleClick}>Find Your Invitation
+              focus:ring-opacity-75 mt-4 max-w-fit'>Find Your Invitation
             </button>
           </div>
-        </div>
+          
+          {error && <p className='text-gold text-center my-4'>{error}</p>}
 
-        {group !== undefined && showDiv && (
-          <div className='flex flex-col justify-items-center border-solid border-x-2 border-b-2 border-gold rounded-b-sm p-3 bg-white mx-10 lg:w-5/6'>
-            {/* invited group is found */}
-            {group.length > 1 ? (
-              <div>
-                <p className='text-gold text-center mb-2'>Great! There you are. Will you be attending?</p>
-                <div className='flex flex-col text-xs lg:text-base justify-items-center mx-[calc(5%)]'>
-                  {group.map((name, index) => (
-                    <div className='flex flex-row justify-between'>
-                      <p key={index} className='tracking-wide lg:text-lg'>{name}</p>
-                      <div>
-                        <input 
-                          type='radio' 
-                          id={`accept-${name}`}
-                          name={`response-${name}`}
-                          className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'></input>
-                        <label htmlFor={`accept-${name}`} className='text-gold'>Accepts with pleasure</label>
-                        <input 
-                          type='radio' 
-                          id={`decline-${name}`}
-                          name={`response-${name}`}
-                          className='w-4 h-4 accent-dark-red bg-gold border-gold rounded ml-2 mr-1'>
-                        </input>
-                        <label htmlFor={`decline-${name}`} className='text-gold'>Declines with regret</label>
-                      </div>
+          {groupGuests.length > 0 && (
+            <div className='flex flex-col justify-items-center border-solid border-2 border-gold rounded-sm p-3 bg-white mx-2 '>
+              <p className='text-gold text-center mb-2'>Great, there you are!</p>
+              <ul className='flex flex-col text-xs lg:text-base justify-items-center mx-[calc(5%)]'>
+                {groupGuests.map((guest) => (
+                  <li key={guest.guest_id} className='mt-2 p-2 border-b'>
+                    <p className='tracking-wide lg:text-lg'>{guest.full_name}</p>
+                    {/* <p>RSVP: {guest.rsvp_status ? 'Accepts with pleasure' : 'Declines with regret'}</p> */}
+
+                    {/* RSVP Radio Buttons */}
+                    <div className='mt-1'>
+                      <div className='flex flex-row justify-between'>
+                        <p>RSVP:</p>
+                        <label className='mr-4'>
+                          <input
+                            type='radio'
+                            name={`rsvp-${guest.guest_id}`}
+                            value='true'
+                            checked={rsvpStatus[guest.guest_id] === true}
+                            className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
+                            onChange={() => handleRSVPChange(guest.guest_id, true)}/>Accepts with pleasure
+                        </label>
+                        <label>
+                          <input
+                            type='radio'
+                            name={`rsvp-${guest.guest_id}`}
+                            value='false'
+                            checked={rsvpStatus[guest.guest_id] === false}
+                            className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
+                            onChange={() => handleRSVPChange(guest.guest_id, false)}/>Declines with regret
+                        </label>
+                      </div>                      
                     </div>
-                  ))}
-                  <div className='flex justify-center items-center mt-2'>
-                    <input 
-                      type='checkbox' 
-                      id='checkbox' 
-                      className='w-4 h-4 accent-dark-red bg-gold border-gold rounded ml-2 mr-1'>
-                    </input>
-                    <label for='checkbox' className='text-gold'>Valet spot request</label>
-                  </div>
-                </div>                
-              </div>
-            ) : group.length === 1 ? (
-              <div>
-                <p className='text-gold text-center mb-2'>Great! There you are. Will you be attending?</p>
-                <div className='flex flex-col justify-items-center mx-[calc(5%)]'>
-                  <div className='flex flex-row justify-between'>
-                    <p key={group[0]} className='tracking-wide text-lg'>{group[0]}</p>
-                    <div>
-                      <input 
-                        type='radio' 
-                        id={`accept-${group[0]}`}
-                        name={`response-${group[0]}`}
-                        className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'></input>
-                      <label htmlFor={`accept-${group[0]}`} className='text-gold'>Accepts with pleasure</label>
-                      <input 
-                        type='radio' 
-                        id={`decline-${group[0]}`}
-                        name={`response-${group[0]}`}
-                        className='w-4 h-4 accent-dark-red bg-gold border-gold rounded ml-2 mr-1'>
-                      </input>
-                      <label htmlFor={`decline-${group[0]}`} className='text-gold'>Declines with regret</label>
+
+                    {/* Valet Radio Buttons */}
+                    <div className='mt-1'>
+                      <div className='flex flex-row justify-between'>
+                        <p>Valet Request:</p>
+                        <label className='mr-4'>
+                          <input
+                            type='radio'
+                            name={`valet-${guest.guest_id}`}
+                            value='true'
+                            checked={valetRequest[guest.guest_id] === true}
+                            className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
+                            onChange={() => handleValetChange(guest.guest_id, true)}/>Yes
+                        </label>
+                        <label>
+                          <input
+                            type='radio'
+                            name={`valet-${guest.guest_id}`}
+                            value='false'
+                            checked={valetRequest[guest.guest_id] === false}
+                            className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
+                            onChange={() => handleValetChange(guest.guest_id, false)}/>No
+                        </label>
+                      </div>                      
                     </div>
-                  </div>
-                  <div>
-                    <input
-                      type='checkbox'
-                      id={`guest-${group[0]}`}
-                      name={`additional-guest`}
-                      checked={!!addGuest[group[0]]}
-                      onChange={() => handleAddGuest(group[0])}
-                      className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1 mt-2'/>
-                    <label htmlFor={`guest-${group[0]}`} className="text-gold">+1</label>
-                    {addGuest[group[0]] && (
+
+                    {/* Comment Input */}
+                    <div className='mt-2'>
+                      <label className='block'>Leave a short comment:</label>
                       <input
                         type='text'
-                        placeholder='Enter guest name'
-                        class='w-1/3 ml-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'/>
-                    )}
-                    <div className='flex justify-center items-center mt-2'>
-                    <input 
-                      type='checkbox' 
-                      id='checkbox' 
-                      className='w-4 h-4 accent-dark-red bg-gold border-gold rounded ml-2 mr-1'>
-                    </input>
-                    <label for='checkbox' className='text-gold'>Valet spot request</label>
-                  </div>
-                  </div>
-                </div>                
-              </div>
-            ) : (
-              <p className='text-gold text-center'>Hmm... Guest not found. Did you enter it correctly?</p>
-            )}
+                        value={songRequest[guest.guest_id] || ''}
+                        onChange={(e) => handleSongRequestChange(guest.guest_id, e.target.value)}
+                        placeholder=''
+                        className='w-full p-1 mt-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'
+                      />
+                    </div>
+                  </li>
+                ))}
+              </ul>
 
-            <div className='flex justify-center'>
-              <button 
-                className='px-4 py-2 bg-blood-red text-white rounded-lg shadow-md 
-                hover:bg-dark-red focus:outline-none focus:ring-2 focus:ring-gold 
-                focus:ring-opacity-75 mt-4 max-w-fit'>Continue</button>
+              <div className='flex justify-center'>
+                <button
+                  onClick={submitRSVP}
+                  className='px-4 py-2 bg-blood-red text-white rounded-lg shadow-md 
+                  hover:bg-dark-red focus:outline-none focus:ring-2 focus:ring-gold 
+                  focus:ring-opacity-75 mt-4 max-w-fit'>Continue</button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RSVP
+export default RSVP;

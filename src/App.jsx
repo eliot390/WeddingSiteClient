@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import RSVP from './pages/RSVP'
 import Registry from './pages/Registry'
 import Schedule from './pages/Schedule'
+import Confirm from './pages/Confirm'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -12,6 +13,7 @@ const router = createBrowserRouter(
       <Route path='/registry' element={<Registry />} />
       <Route path='/schedule' element={<Schedule />} />
       <Route path='/rsvp' element={<RSVP />} />
+      <Route path='/confirm' element={<Confirm />} />
     </Route>
   )
 )
