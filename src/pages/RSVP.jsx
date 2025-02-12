@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const RSVP = () => {
@@ -10,8 +11,8 @@ const RSVP = () => {
   const [valetRequest, setValetRequest] = useState({});
   const [plusOne, setPlusOne] = useState({});
   const [plusOneName, setPlusOneName] = useState('');
-  const [songRequest, setSongRequest] = useState('');
-  const [shortComment, setShortComment] = useState('');  
+  const [shortComment, setShortComment] = useState('');
+  const navigate = useNavigate();
 
   const fetchGuestData = async () => {
     if (!fullName.trim()) {
@@ -54,46 +55,52 @@ const RSVP = () => {
   };
 
   const handlePlusOneChange = (guest_id, plusOne) => {
-    setRsvpStatus((prevState) => ({
+    setPlusOne((prevState) => ({
       ...prevState,
       [guest_id]: plusOne,
     }));
   };
 
   const handlePlusOneNameChange = (guest_id, poName) => {
-    setRsvpStatus((prevState) => ({
+    setPlusOneName((prevState) => ({
       ...prevState,
       [guest_id]: poName,
     }));
   };
 
   const handleCommentChange = (guest_id, comment) => {
-    setRsvpStatus((prevState) => ({
+    setShortComment((prevState) => ({
       ...prevState,
       [guest_id]: comment,
     }));
   };
-
-  const handleSongRequestChange = (guest_id, song) => {
-    setSongRequest((prevState) => ({
-      ...prevState,
-      [guest_id]: song,
-    }));
-  };
-
 
   const submitRSVP = async () => {
     try {
       await Promise.all(
         groupGuests.map((guest) =>
           axios.put(`http://localhost:8080/api/v1/guests/${guest.guest_id}`, {
-            rsvp_status: rsvpStatus[guest.guest_id],
-            song_request: songRequest[guest.guest_id],
+            rsvp_status: rsvpStatus[guest.guest_id] || false,
+            valet_request: valetRequest[guest.guest_id] || false,
+            short_comment: shortComment[guest.guest_id] || '',
           })
         )
       );
 
-      alert('RSVP status updated successfully!');
+      // alert('RSVP status updated successfully!');
+      const updatedGuests = groupGuests.map((guest) => ({
+        ...guest,
+        rsvp_status: rsvpStatus[guest.guest_id] || false,        
+        valet_request: valetRequest[guest.guest_id] || false,
+      }));
+
+      const updatedGuestData = {
+        ...guestData,
+        rsvp_status: rsvpStatus[guestData.guest_id] || false,        
+        valet_request: valetRequest[guestData.guest_id] || false,
+      };
+
+      navigate('/confirm', {state: {guestData:updatedGuestData, groupGuests: updatedGuests}});
     } catch (error) {
       console.error('Error updating RSVP:', error);
       alert('Failed to update RSVP.');
@@ -126,21 +133,20 @@ const RSVP = () => {
             </button>
           </div>
           
-          {error && <p className='text-gold text-center my-4'>{error}</p>}
+          {error && <p className='text-gold text-center text-lg my-4'>{error}</p>}
 
           {groupGuests.length > 0 && (
-            <div className='flex flex-col justify-items-center border-solid border-2 border-gold rounded-sm p-3 bg-white mx-2 '>
+            <div className='flex flex-col justify-items-center border-solid border-t-2 border-gold p-3 bg-white mx-2 '>
               <p className='text-gold text-center mb-2'>Great, there you are!</p>
               <ul className='flex flex-col text-xs lg:text-base justify-items-center mx-[calc(5%)]'>
-                {groupGuests.map((guest) => (
+                {groupGuests.sort((a,b) => a.guest_id - b.guest_id).map((guest, index) => (
                   <li key={guest.guest_id} className='mt-2 p-2 border-b'>
-                    <p className='tracking-wide lg:text-lg'>{guest.full_name}</p>
-                    {/* <p>RSVP: {guest.rsvp_status ? 'Accepts with pleasure' : 'Declines with regret'}</p> */}
+                    <p className='tracking-wide text-center text-lg lg:text-2xl'>{guest.full_name}</p>
 
                     {/* RSVP Radio Buttons */}
-                    <div className='mt-1'>
-                      <div className='flex flex-row justify-between'>
-                        <p>RSVP:</p>
+                    <div className='mt-1 grid grid-cols-2'>
+                      <p className='text-right mr-10'>RSVP:</p>
+                      <div className='flex flex-col justify-start'>
                         <label className='mr-4'>
                           <input
                             type='radio'
@@ -159,13 +165,14 @@ const RSVP = () => {
                             className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
                             onChange={() => handleRSVPChange(guest.guest_id, false)}/>Declines with regret
                         </label>
-                      </div>                      
+                      </div>
                     </div>
 
                     {/* Valet Radio Buttons */}
-                    <div className='mt-1'>
-                      <div className='flex flex-row justify-between'>
-                        <p>Valet Request:</p>
+                    {index === 1 && (
+                      <div className='mt-1 grid grid-cols-2'>
+                      <p className='text-right mr-10'>Valet Request:</p>
+                      <div className='flex flex-col justify-start'>
                         <label className='mr-4'>
                           <input
                             type='radio'
@@ -184,24 +191,27 @@ const RSVP = () => {
                             className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
                             onChange={() => handleValetChange(guest.guest_id, false)}/>No
                         </label>
-                      </div>                      
+                      </div>
                     </div>
+                    )}                    
 
                     {/* Comment Input */}
-                    <div className='mt-2'>
-                      <label className='block'>Leave a short comment:</label>
-                      <input
-                        type='text'
-                        value={songRequest[guest.guest_id] || ''}
-                        onChange={(e) => handleSongRequestChange(guest.guest_id, e.target.value)}
-                        placeholder=''
-                        className='w-full p-1 mt-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'
-                      />
+                    {index === 1 && (
+                      <div className='mt-2'>
+                        <label className='block'>Leave a short comment:</label>
+                        <input
+                          type='text'
+                          value={shortComment[guest.guest_id] || ''}
+                          onChange={(e) => handleCommentChange(guest.guest_id, e.target.value)}
+                          placeholder=''
+                          className='w-full p-1 mt-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'/>
                     </div>
+                    )}
                   </li>
                 ))}
               </ul>
 
+              {/* Submit Button */}
               <div className='flex justify-center'>
                 <button
                   onClick={submitRSVP}
