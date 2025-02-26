@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 import axios from 'axios';
 
 const Confirm = () => {
@@ -13,6 +14,14 @@ const Confirm = () => {
       [guest_id]: song,
     }));
   };
+
+  const handleCelebration = () => {
+    confetti({
+      particleCount:100,
+      spread:100,
+      origin: {y:0.6}
+    })
+  }
 
   const submitSong = async () => {
     try {
@@ -36,8 +45,8 @@ const Confirm = () => {
         <div className='my-auto max-w-lg'>
           {guestData.rsvp_status ? (
             <div className='grid justify-items-center border-solid border-2 border-gold rounded p-4 mx-6 bg-pale-gold'>
-              <p className='text-gold tracking-wide text-center text-xl'>We are excited to {guestData?.full_name} celebrate with us!</p>
-              <p className='text-center'>If you would like to request a song for the DJ, please enter your submission below</p>
+              <p className='text-gold tracking-wide text-center text-xl'>We are so excited to have you celebrate with us!</p>
+              <p className='text-center mt-2'>Is there a song that will get you on the dance floor?</p>
               <div className='flex flex-col justify-center w-2/3 items-center pt-4'>
                 <input
                   type='text'
@@ -48,10 +57,11 @@ const Confirm = () => {
               </div>
               <div className='flex justify-center my-2'>
                 <button
-                  onClick={submitSong}
+                  onClick={() => {submitSong(); handleCelebration();}}
                   class='px-4 py-2 bg-blood-red text-white rounded-lg shadow-md 
                   hover:bg-dark-red focus:outline-none focus:ring-2 focus:ring-gold 
-                  focus:ring-opacity-75 mt-4 max-w-fit'>Let's Dance!
+                  focus:ring-opacity-75 mt-4 max-w-fit
+                  transform active:scale-75 transition-transform'>Let's Dance!
                 </button>
               </div>
             </div>

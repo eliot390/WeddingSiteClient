@@ -9,6 +9,7 @@ const RSVP = () => {
   const [error, setError] = useState('');
   const [rsvpStatus, setRsvpStatus] = useState({});
   const [valetRequest, setValetRequest] = useState({});
+  const [valetCount, setValetCount] = useState(0);
   const [plusOne, setPlusOne] = useState({});
   const [plusOneName, setPlusOneName] = useState('');
   const [shortComment, setShortComment] = useState('');
@@ -33,6 +34,10 @@ const RSVP = () => {
       } else {
         setGroupGuests([]);
       }
+
+      const valetResponse = await axios.get('http://localhost:8080/api/v1/guests/valet/count');
+      setValetCount(valetResponse.data.count);
+
     } catch (err) {
       setError('Hmm... Guest not found. Did you enter it correctly?');
       setGuestData(null);
@@ -59,6 +64,13 @@ const RSVP = () => {
       ...prevState,
       [guest_id]: plusOne,
     }));
+
+    if(!plusOne) {
+      setPlusOneName((prevState) => ({
+        ...prevState,
+        [guest_id]: ''
+      }));
+    }
   };
 
   const handlePlusOneNameChange = (guest_id, poName) => {
@@ -83,20 +95,21 @@ const RSVP = () => {
             rsvp_status: rsvpStatus[guest.guest_id] || false,
             valet_request: valetRequest[guest.guest_id] || false,
             short_comment: shortComment[guest.guest_id] || '',
+            plus_one: plusOne[guest.guest_id] || false,
+            guest_name: plusOneName[guest.guest_id] || '',
           })
         )
       );
 
-      // alert('RSVP status updated successfully!');
       const updatedGuests = groupGuests.map((guest) => ({
         ...guest,
-        rsvp_status: rsvpStatus[guest.guest_id] || false,        
+        rsvp_status: rsvpStatus[guest.guest_id] || false,
         valet_request: valetRequest[guest.guest_id] || false,
       }));
 
       const updatedGuestData = {
         ...guestData,
-        rsvp_status: rsvpStatus[guestData.guest_id] || false,        
+        rsvp_status: rsvpStatus[guestData.guest_id] || false,
         valet_request: valetRequest[guestData.guest_id] || false,
       };
 
@@ -129,7 +142,8 @@ const RSVP = () => {
               onClick={fetchGuestData} 
               className='px-4 py-2 bg-blood-red text-white rounded-lg shadow-md 
               hover:bg-dark-red focus:outline-none focus:ring-2 focus:ring-gold 
-              focus:ring-opacity-75 mt-4 max-w-fit'>Find Your Invitation
+              focus:ring-opacity-75 mt-4 max-w-fit
+              transform active:scale-95 transition-transform'>Find Your Invitation
             </button>
           </div>
           
@@ -138,78 +152,120 @@ const RSVP = () => {
           {groupGuests.length > 0 && (
             <div className='flex flex-col justify-items-center border-solid border-t-2 border-gold p-3 bg-white mx-2 '>
               <p className='text-gold text-center mb-2'>Great, there you are!</p>
-              <ul className='flex flex-col text-xs lg:text-base justify-items-center mx-[calc(5%)]'>
-                {groupGuests.sort((a,b) => a.guest_id - b.guest_id).map((guest, index) => (
-                  <li key={guest.guest_id} className='mt-2 p-2 border-b'>
-                    <p className='tracking-wide text-center text-lg lg:text-2xl'>{guest.full_name}</p>
+              <ul className='flex flex-col text-xs lg:text-base justify-items-center mx-[calc(5%)] mb-5'>
+                {groupGuests.sort((a,b) => a.guest_id - b.guest_id).map((guest) => (
+                  <li key={guest.guest_id} className='p-1'>
+                    <p className='tracking-wide text-center text-lg lg:text-2xl mt-1'>{guest.full_name}</p>
 
                     {/* RSVP Radio Buttons */}
-                    <div className='mt-1 grid grid-cols-2'>
-                      <p className='text-right mr-10'>RSVP:</p>
-                      <div className='flex flex-col justify-start'>
-                        <label className='mr-4'>
-                          <input
-                            type='radio'
-                            name={`rsvp-${guest.guest_id}`}
-                            value='true'
-                            checked={rsvpStatus[guest.guest_id] === true}
-                            className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
-                            onChange={() => handleRSVPChange(guest.guest_id, true)}/>Accepts with pleasure
-                        </label>
-                        <label>
-                          <input
-                            type='radio'
-                            name={`rsvp-${guest.guest_id}`}
-                            value='false'
-                            checked={rsvpStatus[guest.guest_id] === false}
-                            className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
-                            onChange={() => handleRSVPChange(guest.guest_id, false)}/>Declines with regret
-                        </label>
-                      </div>
+                    <div className='flex flex-row justify-evenly mt-1'>
+                      <label>
+                        <input
+                          type='radio'
+                          name={`rsvp-${guest.guest_id}`}
+                          value='true'
+                          checked={rsvpStatus[guest.guest_id] === true}
+                          className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
+                          onChange={() => handleRSVPChange(guest.guest_id, true)}/>Accepts with pleasure 🥳
+                      </label>
+                      <label>
+                        <input
+                          type='radio'
+                          name={`rsvp-${guest.guest_id}`}
+                          value='false'
+                          checked={rsvpStatus[guest.guest_id] === false}
+                          className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
+                          onChange={() => handleRSVPChange(guest.guest_id, false)}/>Declines with regret 😔
+                      </label>
                     </div>
 
-                    {/* Valet Radio Buttons */}
-                    {index === 1 && (
-                      <div className='mt-1 grid grid-cols-2'>
-                      <p className='text-right mr-10'>Valet Request:</p>
-                      <div className='flex flex-col justify-start'>
-                        <label className='mr-4'>
-                          <input
-                            type='radio'
-                            name={`valet-${guest.guest_id}`}
-                            value='true'
-                            checked={valetRequest[guest.guest_id] === true}
-                            className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
-                            onChange={() => handleValetChange(guest.guest_id, true)}/>Yes
-                        </label>
-                        <label>
-                          <input
-                            type='radio'
-                            name={`valet-${guest.guest_id}`}
-                            value='false'
-                            checked={valetRequest[guest.guest_id] === false}
-                            className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
-                            onChange={() => handleValetChange(guest.guest_id, false)}/>No
-                        </label>
+                    {/* Single Guest / Plus One */}
+                    {groupGuests.length === 1 && (
+                      <div className='flex flex-row justify-evenly mt-1'>
+                        <p className='text-right mr-10'>And Guest:</p>
+                        <div className='flex flex-row justify-evenly mt-1'>
+                          <label className='mr-4'>
+                            <input
+                              type='radio'
+                              name={`plusOne-${guest.guest_id}`}
+                              value='true'
+                              checked={plusOne[guest.guest_id] === true}
+                              className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
+                              onChange={() => handlePlusOneChange(guest.guest_id, true)}/>Yes
+                          </label>
+                          <label>
+                            <input
+                              type='radio'
+                              name={`plusOne-${guest.guest_id}`}
+                              value='false'
+                              checked={plusOne[guest.guest_id] === false}
+                              className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
+                              onChange={() => handlePlusOneChange(guest.guest_id, false)}/>No
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                    )}                    
+                    )}
 
-                    {/* Comment Input */}
-                    {index === 1 && (
-                      <div className='mt-2'>
-                        <label className='block'>Leave a short comment:</label>
+                    {plusOne[guest.guest_id] && (
+                      <div>
+                        <div class='flex flex-col justify-center items-center pt-4'>
                         <input
                           type='text'
-                          value={shortComment[guest.guest_id] || ''}
-                          onChange={(e) => handleCommentChange(guest.guest_id, e.target.value)}
-                          placeholder=''
-                          className='w-full p-1 mt-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'/>
-                    </div>
+                          value={plusOneName[guest.guest_id] || ''}
+                          onChange={(e) => handlePlusOneNameChange(guest.guest_id, e.target.value)}
+                          placeholder='First and Last Name'
+                          className='w-4/6 p-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'/>
+                        </div>
+                      </div>
+                      
                     )}
                   </li>
                 ))}
               </ul>
+
+              {/* Valet Radio Buttons */}
+              {valetCount <= 26 ? (
+                <div className='flex flex-row justify-center border-t pt-5'>
+                  <p className='mr-5'>Valet Request:</p>
+                  <div>
+                    <label className='mr-4'>
+                      <input
+                        type='radio'
+                        name={`valet-${guestData.guest_id}`}
+                        value='true'
+                        checked={valetRequest[guestData.guest_id] === true}
+                        className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
+                        onChange={() => handleValetChange(guestData.guest_id, true)}/>Yes
+                    </label>
+                    <label>
+                      <input
+                        type='radio'
+                        name={`valet-${guestData.guest_id}`}
+                        value='false'
+                        checked={valetRequest[guestData.guest_id] === false}
+                        className='w-4 h-4 accent-dark-red bg-gold border-gold rounded mr-1'
+                        onChange={() => handleValetChange(guestData.guest_id, false)}/>No
+                    </label>
+                  </div>
+                </div>
+              ) : (
+                <div className='flex flex-row justify-center border-t pt-5'>
+                  <p className='text-center w-5/6'>🚕 Sorry, valet is full! Please consider Lyft, as street parking on La Cienega is limited.</p>
+                </div>
+              )}
+
+              {/* Comment Input */}
+              {guestData && (
+                <div className='flex flex-col items-center mt-5'>
+                  <label>Leave a short comment:</label>
+                  <input
+                    type='text'
+                    value={shortComment[guestData.guest_id] || ''}
+                    onChange={(e) => handleCommentChange(guestData.guest_id, e.target.value)}
+                    placeholder=''
+                    className='w-4/6 p-1 mt-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'/>
+                </div>
+              )}
 
               {/* Submit Button */}
               <div className='flex justify-center'>

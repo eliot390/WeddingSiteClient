@@ -50,14 +50,14 @@ const Schedule = () => {
           <div className='border-solid border-l-2 border-blood-red'></div>
 
           {/* ROW 5 */}
-          <div className='border-solid border-r-2 border-blood-red'></div>
+          {/* <div className='border-solid border-r-2 border-blood-red'></div>
           <div className='border-solid border-l-2 border-blood-red p-4'>
             <div className='uppercase tracking-wide lg:text-5xl text-lg text-gold'>after party</div>
             <p>10:30 -</p>
             <div className='font-light lg:text-xl lg:w-3/4 lg:mt-4 tracking-wide'>Still haven't had enough?? Join the brave and the bold across the street 
             at No Smoking Bar for some Incredible Hulk Jr's and cup ramen
             </div>
-          </div>
+          </div> */}
 
         </div>
       </div>
