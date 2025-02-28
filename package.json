@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "build_staging": "PUBLIC_URL=https://joanneliotweddingparty.com/ react-scripts build",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

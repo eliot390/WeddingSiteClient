@@ -27,7 +27,7 @@ const Confirm = () => {
     try {
       await Promise.all(
         groupGuests.map((guest) =>
-          axios.put(`http://localhost:8080/api/v1/guests/${guest.guest_id}`, {
+          axios.put(`https://weddingsiteserver-production.up.railway.app/api/v1/guests/${guest.guest_id}`, {
             song_request: songRequest[guest.guest_id],
           })
         )
@@ -58,7 +58,7 @@ const Confirm = () => {
               <div className='flex justify-center my-2'>
                 <button
                   onClick={() => {submitSong(); handleCelebration();}}
-                  class='px-4 py-2 bg-blood-red text-white rounded-lg shadow-md 
+                  className='px-4 py-2 bg-blood-red text-white rounded-lg shadow-md 
                   hover:bg-dark-red focus:outline-none focus:ring-2 focus:ring-gold 
                   focus:ring-opacity-75 mt-4 max-w-fit
                   transform active:scale-75 transition-transform'>Let's Dance!

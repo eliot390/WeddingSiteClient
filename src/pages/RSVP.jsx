@@ -22,20 +22,20 @@ const RSVP = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/api/v1/guests/name?full_name=${encodeURIComponent(fullName)}`);
+      const response = await axios.get(`https://weddingsiteserver-production.up.railway.app/api/v1/guests/name?full_name=${encodeURIComponent(fullName)}`);
 
       const guest = response.data;
       setGuestData(guest);
       setError('');
 
       if (guest.group_pairing) {
-        const groupResponse = await axios.get(`http://localhost:8080/api/v1/guests/group/${guest.group_pairing}`);
+        const groupResponse = await axios.get(`https://weddingsiteserver-production.up.railway.app/api/v1/guests/group/${guest.group_pairing}`);
         setGroupGuests(groupResponse.data);
       } else {
         setGroupGuests([]);
       }
 
-      const valetResponse = await axios.get('http://localhost:8080/api/v1/guests/valet/count');
+      const valetResponse = await axios.get('https://weddingsiteserver-production.up.railway.app/api/v1/guests/valet/count');
       setValetCount(valetResponse.data.count);
 
     } catch (err) {
@@ -91,7 +91,7 @@ const RSVP = () => {
     try {
       await Promise.all(
         groupGuests.map((guest) =>
-          axios.put(`http://localhost:8080/api/v1/guests/${guest.guest_id}`, {
+          axios.put(`https://weddingsiteserver-production.up.railway.app/api/v1/guests/${guest.guest_id}`, {
             rsvp_status: rsvpStatus[guest.guest_id] || false,
             valet_request: valetRequest[guest.guest_id] || false,
             short_comment: shortComment[guest.guest_id] || '',
@@ -128,7 +128,7 @@ const RSVP = () => {
             Please enter the first and last name of one member of your party below.
             If you're responding for you and a guest, you'll be able to RSVP for your entire party below.
           </p>
-          <div class='flex flex-col justify-center items-center pt-4'>
+          <div className='flex flex-col justify-center items-center pt-4'>
             <input
               type='text'
               value={fullName}
@@ -208,7 +208,7 @@ const RSVP = () => {
 
                     {plusOne[guest.guest_id] && (
                       <div>
-                        <div class='flex flex-col justify-center items-center pt-4'>
+                        <div className='flex flex-col justify-center items-center pt-4'>
                         <input
                           type='text'
                           value={plusOneName[guest.guest_id] || ''}
