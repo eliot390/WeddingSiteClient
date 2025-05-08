@@ -12,7 +12,7 @@ const Navbar = () => {
               <div className='flex space-x-2 uppercase tracking-tighter text-sm font-light lg:tracking-wide lg:text-lg'>
                 <Link to='/' className={`lg:pr-4 hover:underline ${location.pathname === '/' ? 'underline' : ''}`}>h o m e</Link>
                 <Link to='/rsvp' className={`lg:pr-4 hover:underline ${location.pathname === '/rsvp' ? 'underline' : ''}`}>r s v p</Link>
-                <Link to='/schedule' className={`lg:pr-4 hover:underline ${location.pathname === '/schedule' ? 'underline' : ''}`}>s c h e d u l e</Link>
+                <Link to='/schedule' className={`lg:pr-4 hover:underline ${location.pathname === '/schedule' ? 'underline' : ''}`}>i n f o r m a t i o n</Link>
                 <Link to='/registry' className={`hover:underline ${location.pathname === '/registry' ? 'underline' : ''}`}>r e g i s t r y</Link>
               </div>
             </div>

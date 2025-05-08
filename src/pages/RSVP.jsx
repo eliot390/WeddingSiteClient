@@ -122,11 +122,14 @@ const RSVP = () => {
 
   return (
     <div className='flex justify-center bg-zinc-900 h-screen w-full'>
-      <div className='mt-[calc(50%)] lg:mt-[calc(5%)] max-w-xl'>
+      <div className='mt-[calc(25%)] lg:mt-[calc(5%)] max-w-xl'>
         <div className='flex flex-col justify-items-center border-solid border-2 border-gold rounded-t-sm p-2 bg-white mx-10 lg:w-5/6'>
           <p className='text-gold tracking-wide text-center text-lg mx-[calc(5%)]'>
-            Please enter the first and last name of one member of your party below.
+            Please enter the first and last name of one member of your party.
             If you're responding for you and a guest, you'll be able to RSVP for your entire party below.
+          </p>
+          <p className='font-light text-xs lg:text-sm text-center pt-1'>
+            While we love your little ones, please note that Smogshoppe <br/> guidelines advise against under 18 attendees <br/> (They'll be bored anyways!)
           </p>
           <div className='flex flex-col justify-center items-center pt-4'>
             <input
@@ -224,7 +227,7 @@ const RSVP = () => {
               </ul>
 
               {/* Valet Radio Buttons */}
-              {valetCount <= 26 ? (
+              {/* {valetCount <= 26 ? (
                 <div className='flex flex-row justify-center border-t pt-5'>
                   <p className='mr-5'>Valet Request:</p>
                   <div>
@@ -252,7 +255,7 @@ const RSVP = () => {
                 <div className='flex flex-row justify-center border-t pt-5'>
                   <p className='text-center w-5/6'>🚕 Sorry, valet is full! Please consider Lyft, as street parking on La Cienega is limited.</p>
                 </div>
-              )}
+              )} */}
 
               {/* Comment Input */}
               {guestData && (
