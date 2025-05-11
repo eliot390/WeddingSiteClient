@@ -3,7 +3,7 @@ import MainLayout from './layouts/MainLayout'
 import HomePage from './pages/HomePage'
 import RSVP from './pages/RSVP'
 import Registry from './pages/Registry'
-import Schedule from './pages/Schedule'
+import Information from './pages/Information'
 import Confirm from './pages/Confirm'
 
 const router = createBrowserRouter(
@@ -11,7 +11,7 @@ const router = createBrowserRouter(
     <Route path='/' element={<MainLayout />}>
       <Route index element={<HomePage/>} />
       <Route path='/registry' element={<Registry />} />
-      <Route path='/schedule' element={<Schedule />} />
+      <Route path='/information' element={<Information />} />
       <Route path='/rsvp' element={<RSVP />} />
       <Route path='/confirm' element={<Confirm />} />
     </Route>

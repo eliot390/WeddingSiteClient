@@ -1,4 +1,4 @@
-const Schedule = () => {
+const Information = () => {
   return (
     <div className='flex flex-col justify-center items-center bg-zinc-900 mt-14'>
       <div className='mt-12 lg:w-1/2 w-5/6 bg-white border-x-2 border-t-2 border-gold rounded-t-sm'>
@@ -19,15 +19,15 @@ const Schedule = () => {
             <div className='uppercase tracking-wide lg:text-4xl text-lg text-gold'>welcome drinks</div>
             <p className='mt-2'>5:00 - 6:00</p>
             <div className='font-light lg:text-xl lg:w-3/4 lg:mt-4 tracking-wide'>
-              Enjoy the open bar with His & Her's custom cocktails, beer, wine, and tray passed appetizers.
+              Mingle in the courtyard and enjoy the open bar with His & Her's custom cocktails, beer, wine, and tray passed appetizers.
             </div>
           </div>
 
           {/* ROW 2 */}
           <div className='border-solid border-r-2 border-blood-red pr-2 lg:p-4 text-right'>
-            <div className='uppercase tracking-wide lg:text-4xl text-lg text-gold'>quick ceremony</div>
+            <div className='uppercase tracking-wide lg:text-4xl text-lg text-gold'>we still do...</div>
             <p>6:00 - 6:20</p>
-            <p className='font-light lg:text-xl lg:ml-32 lg:mt-4 tracking-wide'>Short love story recap & vows.</p>
+            <p className='font-light lg:text-xl lg:ml-32 lg:mt-4 tracking-wide'>Hold back the tears as we share real vows and a proper kiss</p>
           </div>          
           <div className='border-solid border-l-2 border-blood-red'></div>
 
@@ -35,9 +35,9 @@ const Schedule = () => {
           <div className='border-solid border-r-2 border-blood-red'></div>
           <div className='border-solid border-l-2 border-blood-red pl-2 lg:p-4'>
             <div className='uppercase tracking-wide lg:text-4xl text-lg text-gold'>dinner & celebration</div>
-            <p>6:30 - 10:00</p>
+            <p>7:00 - 10:00</p>
             <div className='font-light lg:text-xl lg:w-3/4 lg:mt-4 tracking-wide'>
-              Buffet service and dessert. <br/> Open bar & open dance floor.
+              Enjoy buffet service and dessert.  open dance floor.
             </div>
           </div>
 
@@ -110,4 +110,4 @@ const Schedule = () => {
   )
 }
 
-export default Schedule
+export default Information

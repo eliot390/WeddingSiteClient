@@ -8,8 +8,8 @@ const Registry = () => {
       <div className='my-auto max-w-lg'>
         <div className='grid justify-items-center border-solid border-2 border-gold rounded p-4 mx-6 bg-pale-gold'>
           <p className='text-gold tracking-wide text-center text-lg'>
-          Your presence is our present! However, should you wish to honor us with a gift, we would be delighted if you could contribute to our honeymoon fund below. 
-          Helping us create unforgettable memories as we continue our married life together.
+          Your presence is our present! But if you'd like to give a gift, we'd be delighted with a contribution to our 
+          honeymoon fund below, helping us create unforgettable memories as we continue our married life together.
           </p>
           <img src={asia} className='lg:w-2/3 w-1/2 mt-4'/>
           <img src={mexico} className='lg:w-2/3 w-1/2 mt-4'/>
