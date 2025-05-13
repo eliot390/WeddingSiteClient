@@ -27,7 +27,7 @@ const Information = () => {
           <div className='border-solid border-r-2 border-blood-red pr-2 lg:p-4 text-right'>
             <div className='uppercase tracking-wide lg:text-4xl text-lg text-gold'>we still do...</div>
             <p>6:00 - 6:20</p>
-            <p className='font-light lg:text-xl lg:ml-32 lg:mt-4 tracking-wide'>Hold back the tears as we share real vows and a proper kiss</p>
+            <p className='font-light lg:text-xl lg:ml-32 lg:mt-4 tracking-wide'>For those who missed it the first time.<br/>Now, with a proper kiss</p>
           </div>          
           <div className='border-solid border-l-2 border-blood-red'></div>
 
@@ -37,7 +37,7 @@ const Information = () => {
             <div className='uppercase tracking-wide lg:text-4xl text-lg text-gold'>dinner & celebration</div>
             <p>7:00 - 10:00</p>
             <div className='font-light lg:text-xl lg:w-3/4 lg:mt-4 tracking-wide'>
-              Enjoy buffet service and dessert.  open dance floor.
+              Hope you didn't fill up on appetizers! Enjoy the delicious buffet spread & (Eliot-made) desserts.
             </div>
           </div>
 
