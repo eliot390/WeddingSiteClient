@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import axios from 'axios';
 
 const Confirm = () => {
   const [songRequest, setSongRequest] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
   const { guestData, groupGuests } = location.state || {};
 
   const handleSongRequestChange = (guest_id, song) => {
@@ -25,19 +26,21 @@ const Confirm = () => {
 
   const submitSong = async () => {
     try {
-      await Promise.all(
+      await Promise.allSettled(
         groupGuests.map((guest) =>
           axios.put(`https://weddingsiteserver-production.up.railway.app/api/v1/guests/${guest.guest_id}`, {
             song_request: songRequest[guest.guest_id],
           })
         )
       );
+      setTimeout(() => {
+        navigate('/');
+      }, 5000);
     } catch (error) {
       console.error('Error updating song:', error);
       alert('Failed to update song.');
     }
-  };
-  
+  };  
 
   return (
     <div className='flex justify-center bg-zinc-900 h-screen w-full'>
