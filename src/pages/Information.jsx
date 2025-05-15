@@ -27,7 +27,7 @@ const Information = () => {
           <div className='border-solid border-r-2 border-blood-red pr-2 lg:p-4 text-right'>
             <div className='uppercase tracking-wide lg:text-4xl text-lg text-gold'>we still do...</div>
             <p>6:00 - 6:20</p>
-            <p className='font-light lg:text-xl lg:ml-32 lg:mt-4 tracking-wide'>For those who missed it the first time.<br/>Now, with a proper kiss</p>
+            <p className='font-light lg:text-xl lg:ml-32 lg:mt-4 tracking-wide'>For those who missed it the first time.<br/>Now, with a proper kiss!</p>
           </div>          
           <div className='border-solid border-l-2 border-blood-red'></div>
 
@@ -37,27 +37,9 @@ const Information = () => {
             <div className='uppercase tracking-wide lg:text-4xl text-lg text-gold'>dinner & celebration</div>
             <p>7:00 - 10:00</p>
             <div className='font-light lg:text-xl lg:w-3/4 lg:mt-4 tracking-wide'>
-              Hope you didn't fill up on appetizers! Enjoy the delicious buffet spread & (Eliot-made) desserts.
+              Fill up on the delicious buffet spread & (Eliot-made) desserts, then show us your best dance moves!
             </div>
           </div>
-
-          {/* ROW 4 */}
-          {/* <div className='border-solid border-r-2 border-blood-red pr-2 lg:p-4 text-right'>
-            <div className='uppercase tracking-wide lg:text-4xl text-lg text-gold'>celebration</div>
-            <p>7:30 - 10:00</p>
-            <div className='font-light lg:text-xl lg:ml-32 lg:mt-4 tracking-wide'>Open bar & open dance floor</div>
-          </div>
-          <div className='border-solid border-l-2 border-blood-red'></div> */}
-
-          {/* ROW 5 */}
-          {/* <div className='border-solid border-r-2 border-blood-red'></div>
-          <div className='border-solid border-l-2 border-blood-red p-4'>
-            <div className='uppercase tracking-wide lg:text-5xl text-lg text-gold'>after party</div>
-            <p>10:30 -</p>
-            <div className='font-light lg:text-xl lg:w-3/4 lg:mt-4 tracking-wide'>Still haven't had enough?? Join the brave and the bold across the street 
-            at No Smoking Bar for some Incredible Hulk Jr's and cup ramen
-            </div>
-          </div> */}
 
         </div>
       </div>
@@ -74,7 +56,6 @@ const Information = () => {
           <p className='uppercase tracking-wide text-3xl text-center text-blood-red pt-10 bg-pale-gold'>attire</p>
           <p className='text-center font-light px-4 lg:px-0 lg:text-xl'><span className='font-normal'>Semi-Formal</span>
             <br/>Dark colors requested. Strike a balance between elegant and comfortable!
-            <br/>Think cocktail party at the Haunted Mansion 👻🧛🏻‍♂️
             <br/>(No jeans, t-shirts, etc...)
           </p>
           <br/>
