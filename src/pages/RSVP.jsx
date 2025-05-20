@@ -136,7 +136,7 @@ const RSVP = () => {
               type='text'
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder='First and Last Name'
+              placeholder='First and Last Name (Case Sensitive)'
               className='w-4/6 p-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'/>
           </div>
           <p className='font-light text-xs lg:text-sm text-center pt-1'>Ex. Stephen Strange (not Dr. Strange or Sorceror Supreme Strange)</p>

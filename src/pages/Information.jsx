@@ -56,6 +56,7 @@ const Information = () => {
           <p className='uppercase tracking-wide text-3xl text-center text-blood-red pt-10 bg-pale-gold'>attire</p>
           <p className='text-center font-light px-4 lg:px-0 lg:text-xl'><span className='font-normal'>Semi-Formal</span>
             <br/>Dark colors requested. Strike a balance between elegant and comfortable!
+            <br/>Think cocktail party at the Haunted Mansion! 👻🧛🏻‍♂️
             <br/>(No jeans, t-shirts, etc...)
           </p>
           <br/>
