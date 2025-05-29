@@ -15,14 +15,20 @@ const RSVP = () => {
   const [shortComment, setShortComment] = useState('');
   const navigate = useNavigate();
 
+  const formatFullName = (name) => {
+      return name.toLowerCase().split(' ').filter(Boolean).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  }
+
   const fetchGuestData = async () => {
     if (!fullName.trim()) {
       setError('Please enter a name.');
       return;
-    }
+    }    
+
+    const formattedName = formatFullName(fullName);
 
     try {
-      const response = await axios.get(`https://weddingsiteserver-production.up.railway.app/api/v1/guests/name?full_name=${encodeURIComponent(fullName)}`);
+      const response = await axios.get(`https://weddingsiteserver-production.up.railway.app/api/v1/guests/name?full_name=${encodeURIComponent(formattedName)}`);
 
       const guest = response.data;
       setGuestData(guest);
@@ -136,7 +142,7 @@ const RSVP = () => {
               type='text'
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder='First and Last Name (Case Sensitive)'
+              placeholder='First and Last Name'
               className='w-4/6 p-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent resize-none'/>
           </div>
           <p className='font-light text-xs lg:text-sm text-center pt-1'>Ex. Stephen Strange (not Dr. Strange or Sorceror Supreme Strange)</p>
@@ -158,7 +164,7 @@ const RSVP = () => {
               <ul className='flex flex-col text-xs lg:text-base justify-items-center mx-[calc(5%)] mb-5'>
                 {groupGuests.sort((a,b) => a.guest_id - b.guest_id).map((guest) => (
                   <li key={guest.guest_id} className='p-1'>
-                    <p className='tracking-wide text-center text-lg lg:text-2xl mt-1'>{guest.full_name}</p>
+                    <p className='capitalize tracking-wide text-center text-lg lg:text-2xl mt-1'>{guest.full_name}</p>
 
                     {/* RSVP Radio Buttons */}
                     <div className='flex flex-row justify-evenly mt-1'>
