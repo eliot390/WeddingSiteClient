@@ -48,7 +48,8 @@ const Information = () => {
         <div className='flex flex-col lg:w-full'>
           <p className='uppercase tracking-wide text-3xl text-center text-blood-red pt-10 bg-pale-gold'>parking</p>
           <p className='text-center font-light px-4 lg:px-0 lg:text-xl'><span className='font-normal'>Lyft is your friend!</span>
-            <br/>A limited amount of valet spots will be available, as well as street parking on La Cienega Blvd.
+            <br/>A limited amount of complimentary valet spots will be available on-site. 
+            <br/>Free street parking is also available on S La Cienega Blvd.
             <br/>Residential parking is not recommended.
           </p>
           <br/>
