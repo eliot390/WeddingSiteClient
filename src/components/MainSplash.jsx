@@ -14,7 +14,7 @@ const MainSplash = () => {
         <p className='uppercase tracking-widest lg:text-xl font-light mt-4 lg:mt-8'>october 5, 2025</p>
         <div className='flex flex-col justify-center items-center mt-6 2xl:mt-7'>
           <Link to='/rsvp'>
-            <div className='border-solid border-2 border-gold p-3 uppercase  text-gold tracking-widest'>rsvp by july 1, 2025</div>
+            <div className='border-solid border-2 border-gold p-3 uppercase text-gold tracking-widest'>rsvp by august 17, 2025</div>
           </Link>
         </div>
       </div>

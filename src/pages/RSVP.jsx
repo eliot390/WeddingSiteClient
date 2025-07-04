@@ -134,8 +134,8 @@ const RSVP = () => {
             Please enter the first and last name of one member of your party.
             You'll be able to RSVP for your entire party below.
           </p>
-          <p className='font-light text-xs lg:text-sm text-center pt-1'>
-            While we love your little ones, please note that Smogshoppe <br/> guidelines advise against under 18 attendees. <br/> (They'll be bored anyways!)
+          <p className='font-light text-center pt-1'>
+            While we love your little ones, please note <br/>that this will be an adult only celebration.
           </p>
           <div className='flex flex-col justify-center items-center pt-4'>
             <input
@@ -159,6 +159,25 @@ const RSVP = () => {
           {error && <p className='text-gold text-center text-lg my-4'>{error}</p>}
 
           {groupGuests.length > 0 && (
+            groupGuests.some(g => g.guest_id <= 76 && g.rsvp_status !== null) ? (
+              <div className='text-center text-dark-red  mt-4'>
+                {(() => {
+                  const guest = groupGuests.find(g => g.guest_id <= 76 && g.rsvp_status !== null);
+                  if (guest?.rsvp_status === true) {
+                    return <div>
+                            <p>Your RSVP is in, and we can't wait to celebrate with you!🎉</p>
+                            <p>If you need to make any changes, please contact Eliot or Joanne.</p>
+                           </div>;
+                  } else if (guest?.rsvp_status === false) {
+                    return <div>
+                            <p>Your RSVP is in, and we're sorry you couldn't make it.😔</p>
+                            <p>If you need to make any changes, please contact Eliot or Joanne.</p>
+                           </div>;
+                  }
+                  return null;
+                })()}
+              </div>
+            ) : (
             <div className='flex flex-col justify-items-center border-solid border-t-2 border-gold p-3 bg-white mx-2 '>
               <p className='text-gold text-center mb-2'>Great, there you are!</p>
               <ul className='flex flex-col text-xs lg:text-base justify-items-center mx-[calc(5%)] mb-5'>
@@ -285,6 +304,7 @@ const RSVP = () => {
                   focus:ring-opacity-75 mt-4 max-w-fit'>Continue</button>
               </div>
             </div>
+            )
           )}
         </div>
       </div>
