@@ -1,6 +1,5 @@
 import venmo from '../assets/images/venmo.jpg'
-import asia from '../assets/images/asia.jpg'
-import mexico from '../assets/images/guanajuato.jpg'
+import trip from '../assets/images/travel-map.jpg'
 
 const Registry = () => {
   return (
@@ -11,8 +10,7 @@ const Registry = () => {
           Your presence is our present! <br/>However, if you wish to honor us with a gift, we would gratefully accept a contribution to our 
           honeymoon fund below, helping us create unforgettable memories as we continue our married life together.
           </p>
-          <img src={asia} className='lg:w-2/3 w-1/2 mt-4'/>
-          <img src={mexico} className='lg:w-2/3 w-1/2 mt-4'/>
+          <img src={trip} className='lg:w-2/3 w-1/2 mt-4'/>
           <img src={venmo} className='lg:w-2/3 w-1/2 mt-4'/>
         </div>
       </div>

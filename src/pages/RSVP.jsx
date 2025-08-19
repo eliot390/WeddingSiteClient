@@ -159,10 +159,10 @@ const RSVP = () => {
           {error && <p className='text-gold text-center text-lg my-4'>{error}</p>}
 
           {groupGuests.length > 0 && (
-            groupGuests.some(g => g.guest_id <= 76 && g.rsvp_status !== null) ? (
+            groupGuests.some(g => g.guest_id <= 110 && g.rsvp_status !== null) ? (
               <div className='text-center text-dark-red  mt-4'>
                 {(() => {
-                  const guest = groupGuests.find(g => g.guest_id <= 76 && g.rsvp_status !== null);
+                  const guest = groupGuests.find(g => g.guest_id <= 110 && g.rsvp_status !== null);
                   if (guest?.rsvp_status === true) {
                     return <div>
                             <p>Your RSVP is in, and we can't wait to celebrate with you!🎉</p>
@@ -207,7 +207,7 @@ const RSVP = () => {
                       </label>
                     </div>
 
-                    {/* Single Guest / Plus One */}
+                    {/* Single Guest / Plus One
                     {groupGuests.length === 1 && (
                       <div className='flex flex-row justify-evenly mt-1'>
                         <p className='text-right mr-10'>And Guest:</p>
@@ -232,7 +232,7 @@ const RSVP = () => {
                           </label>
                         </div>
                       </div>
-                    )}
+                    )} */}
 
                     {plusOne[guest.guest_id] && (
                       <div>
